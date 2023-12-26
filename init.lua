@@ -565,7 +565,8 @@ require('mason-lspconfig').setup()
 --  define the property 'filetypes' to the map in question.
 local servers = {
   -- clangd = {},
-  -- gopls = {},
+  gopls = {},
+  templ = {},
   -- pyright = {},
   -- rust_analyzer = {},
   -- tsserver = {},
@@ -700,7 +701,12 @@ if vim.g.neovide then
   vim.o.expandtab = true
   vim.o.relativenumber = true
   vim.o.number = true
+  -- additional filetypes
+  vim.filetype.add({
+   extension = {
+    templ = "templ",
+   },
+  })
 end
-
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
