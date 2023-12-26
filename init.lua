@@ -75,6 +75,7 @@ require('lazy').setup({
 
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
+  'tpope/vim-vinegar',
 
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
@@ -656,6 +657,50 @@ cmp.setup {
     { name = 'path' },
   },
 }
+
+if vim.g.neovide then
+  -- Put anything you want to happen only in Neovide here
+  vim.g.neovide_scale_factor = 2.0
+  local change_scale_factor = function(delta)
+    vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
+  end
+  vim.keymap.set('n', '<D-=>', function()
+    change_scale_factor(1.25)
+  end)
+  vim.keymap.set('n', '<D-->', function()
+    change_scale_factor(1/1.25)
+  end)
+  --https://github.com/vim/vim/blob/master/runtime/mswin.vim
+  vim.keymap.set('n', '<D-s>', ':update<CR>')
+  vim.keymap.set('v', '<D-s>', '<C-C>:update<CR>')
+  vim.keymap.set('i', '<D-s>', '<Esc>:update<CR>gi')
+  vim.keymap.set('v', '<D-c>', '"+y')
+  vim.keymap.set('v', '<D-x>', '"+x')
+  vim.keymap.set({'i','c'}, '<D-v>', '<C-r>+')
+  vim.keymap.set('', '<D-v>', '"+gP')
+  vim.keymap.set('v', '<BS>', 'd')
+  vim.keymap.set('n', '<BS>', '<C-^>')
+
+  vim.g.neovide_padding_top = 10
+  vim.g.neovide_padding_bottom = 0
+  vim.g.neovide_padding_right = 0
+  vim.g.neovide_padding_left = 0
+  vim.g.neovide_hide_mouse_when_typing = true
+
+  vim.o.backup = false
+  vim.o.swapfile = false
+  vim.o.writebackup = false
+  vim.o.autoread = true
+  vim.o.autowrite = true
+  vim.o.autowriteall = true
+  vim.o.clipboard = "unnamedplus"
+  vim.o.tabstop = 2
+  vim.o.shiftwidth = 2
+  vim.o.softtabstop = 2
+  vim.o.expandtab = true
+  vim.o.relativenumber = true
+  vim.o.number = true
+end
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
