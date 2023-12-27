@@ -577,7 +577,7 @@ local servers = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
       -- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-      -- diagnostics = { disable = { 'missing-fields' } },
+      diagnostics = { disable = { 'missing-fields' } },
     },
   },
 }
@@ -661,15 +661,15 @@ cmp.setup {
 
 if vim.g.neovide then
   -- Put anything you want to happen only in Neovide here
-  vim.g.neovide_scale_factor = 2.0
+  vim.g.neovide_scale_factor = 1.6
   local change_scale_factor = function(delta)
     vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
   end
   vim.keymap.set('n', '<D-=>', function()
-    change_scale_factor(1.25)
+    change_scale_factor(1.10)
   end)
   vim.keymap.set('n', '<D-->', function()
-    change_scale_factor(1/1.25)
+    change_scale_factor(1/1.10)
   end)
   --https://github.com/vim/vim/blob/master/runtime/mswin.vim
   vim.keymap.set('n', '<D-s>', ':update<CR>')
