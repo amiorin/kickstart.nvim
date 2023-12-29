@@ -89,7 +89,7 @@ require('lazy').setup({
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'j-hui/fidget.nvim',       opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
@@ -114,7 +114,7 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
+  { 'folke/which-key.nvim',  opts = {} },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -258,7 +258,7 @@ require('lazy').setup({
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.
-  -- require 'kickstart.plugins.autoformat',
+  require 'kickstart.plugins.autoformat',
   -- require 'kickstart.plugins.debug',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
@@ -669,7 +669,7 @@ if vim.g.neovide then
     change_scale_factor(1.10)
   end)
   vim.keymap.set('n', '<D-->', function()
-    change_scale_factor(1/1.10)
+    change_scale_factor(1 / 1.10)
   end)
   --https://github.com/vim/vim/blob/master/runtime/mswin.vim
   vim.keymap.set('n', '<D-s>', ':update<CR>')
@@ -677,10 +677,22 @@ if vim.g.neovide then
   vim.keymap.set('i', '<D-s>', '<Esc>:update<CR>gi')
   vim.keymap.set('v', '<D-c>', '"+y')
   vim.keymap.set('v', '<D-x>', '"+x')
-  vim.keymap.set({'i','c'}, '<D-v>', '<C-r>+')
+  vim.keymap.set('n', '<C-p>', '<C-]>')
+  vim.keymap.set({ 'i', 'c' }, '<D-v>', '<C-r>+')
   vim.keymap.set('', '<D-v>', '"+gP')
   vim.keymap.set('v', '<BS>', 'd')
   vim.keymap.set('n', '<BS>', '<C-^>')
+
+  vim.keymap.set('n', '<D-1>', '1gt')
+  vim.keymap.set('n', '<D-2>', '2gt')
+  vim.keymap.set('n', '<D-3>', '3gt')
+  vim.keymap.set('n', '<D-4>', '4gt')
+  vim.keymap.set('n', '<D-5>', '5gt')
+
+  vim.keymap.set('n', '<D-[>', ':tabprevious<CR>')
+  vim.keymap.set('n', '<D-]>', ':tabnext<CR>')
+  vim.keymap.set('n', '<D-t>', ':tabnew<CR>')
+  vim.keymap.set('n', '<D-w>', ':tabclose<CR>')
 
   vim.g.neovide_padding_top = 10
   vim.g.neovide_padding_bottom = 0
@@ -703,9 +715,9 @@ if vim.g.neovide then
   vim.o.number = true
   -- additional filetypes
   vim.filetype.add({
-   extension = {
-    templ = "templ",
-   },
+    extension = {
+      templ = "templ",
+    },
   })
 end
 -- The line beneath this is called `modeline`. See `:help modeline`
