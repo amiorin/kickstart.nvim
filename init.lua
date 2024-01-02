@@ -666,7 +666,7 @@ local on_attach = function(_, bufnr)
 
   -- See `:help K` for why this keymap
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+  --  nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
   -- Lesser used LSP functionality
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -810,6 +810,7 @@ cmp.setup {
 }
 
 if vim.g.neovide then
+  vim.o.shell = '/opt/homebrew/bin/fish'
   -- Put anything you want to happen only in Neovide here
   vim.g.neovide_scale_factor = 1.6
   local change_scale_factor = function(delta)
@@ -833,16 +834,44 @@ if vim.g.neovide then
   vim.keymap.set('v', '<BS>', 'd')
   -- vim.keymap.set('n', '<BS>', '<C-^>')
 
+  -- tabs
   vim.keymap.set('n', '<D-1>', '1gt')
   vim.keymap.set('n', '<D-2>', '2gt')
   vim.keymap.set('n', '<D-3>', '3gt')
   vim.keymap.set('n', '<D-4>', '4gt')
   vim.keymap.set('n', '<D-5>', '5gt')
-
   vim.keymap.set('n', '<D-[>', ':tabprevious<CR>')
   vim.keymap.set('n', '<D-]>', ':tabnext<CR>')
   vim.keymap.set('n', '<D-t>', ':tabnew<CR>')
-  vim.keymap.set('n', '<D-w>', ':tabclose<CR>')
+  vim.keymap.set('n', '<D-w>', ':close<CR>')
+
+  -- windows
+  vim.keymap.set('n', '<D-d>', ':vsp<CR>')
+  vim.keymap.set('n', '<C-D-d>', ':sp<CR>')
+  vim.keymap.set('t', '<C-h>', '<C-\\><C-N><C-w>h')
+  vim.keymap.set('t', '<C-j>', '<C-\\><C-N><C-w>j')
+  vim.keymap.set('t', '<C-k>', '<C-\\><C-N><C-w>k')
+  vim.keymap.set('t', '<C-l>', '<C-\\><C-N><C-w>l')
+  vim.keymap.set('i', '<C-h>', '<C-\\><C-N><C-w>h')
+  vim.keymap.set('i', '<C-j>', '<C-\\><C-N><C-w>j')
+  vim.keymap.set('i', '<C-k>', '<C-\\><C-N><C-w>k')
+  vim.keymap.set('i', '<C-l>', '<C-\\><C-N><C-w>l')
+  vim.keymap.set('n', '<C-h>', '<C-w>h')
+  vim.keymap.set('n', '<C-j>', '<C-w>j')
+  vim.keymap.set('n', '<C-k>', '<C-w>k')
+  vim.keymap.set('n', '<C-l>', '<C-w>l')
+
+  -- new app
+  vim.keymap.set('n', '<D-n>', '<CMD>silent !neovide<CR>')
+
+  -- terminal
+  vim.keymap.set('t', '<D-BS>', '<C-\\><C-n>')
+  vim.api.nvim_create_autocmd({ "TermOpen" }, {
+    callback = function()
+      vim.cmd('startinsert')
+      vim.o.showmode = false
+    end
+  })
 
   vim.g.neovide_padding_top = 10
   vim.g.neovide_padding_bottom = 0
