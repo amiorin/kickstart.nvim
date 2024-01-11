@@ -809,7 +809,11 @@ cmp.setup {
   },
 }
 
-vim.o.shell = '/opt/homebrew/bin/fish'
+if vim.loop.os_uname().sysname == 'Darwin' then
+  vim.o.shell = '/opt/homebrew/bin/fish'
+elseif vim.o.shell == 'Linux' then
+  vim.o.shell = '/home/linuxbrew/.linuxbrew/bin/fish'
+end
 -- Put anything you want to happen only in Neovide here
 vim.g.neovide_scale_factor = 1.6
 local change_scale_factor = function(delta)
