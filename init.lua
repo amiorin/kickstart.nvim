@@ -809,100 +809,98 @@ cmp.setup {
   },
 }
 
-if vim.g.neovide then
-  vim.o.shell = '/opt/homebrew/bin/fish'
-  -- Put anything you want to happen only in Neovide here
-  vim.g.neovide_scale_factor = 1.6
-  local change_scale_factor = function(delta)
-    vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
-  end
-  vim.keymap.set('n', '<D-=>', function()
-    change_scale_factor(1.10)
-  end)
-  vim.keymap.set('n', '<D-->', function()
-    change_scale_factor(1 / 1.10)
-  end)
-  --https://github.com/vim/vim/blob/master/runtime/mswin.vim
-  vim.keymap.set('n', '<D-s>', ':update<CR>')
-  vim.keymap.set('v', '<D-s>', '<C-C>:update<CR>')
-  vim.keymap.set('i', '<D-s>', '<Esc>:update<CR>gi')
-  vim.keymap.set('v', '<D-c>', '"+y')
-  vim.keymap.set('v', '<D-x>', '"+x')
-  vim.keymap.set('n', '<C-p>', '<C-]>')
-  vim.keymap.set({ 'i', 'c' }, '<D-v>', '<C-r>+')
-  vim.keymap.set('', '<D-v>', '"+gP')
-  vim.keymap.set('v', '<BS>', 'd')
-  -- vim.keymap.set('n', '<BS>', '<C-^>')
-
-  -- tabs
-  vim.keymap.set('n', '<D-1>', '1gt')
-  vim.keymap.set('n', '<D-2>', '2gt')
-  vim.keymap.set('n', '<D-3>', '3gt')
-  vim.keymap.set('n', '<D-4>', '4gt')
-  vim.keymap.set('n', '<D-5>', '5gt')
-  vim.keymap.set('n', '<D-[>', ':tabprevious<CR>')
-  vim.keymap.set('n', '<D-]>', ':tabnext<CR>')
-  vim.keymap.set('n', '<D-t>', ':tabnew<CR>')
-  vim.keymap.set('n', '<D-w>', ':close<CR>')
-
-  -- windows
-  vim.keymap.set('n', '<D-d>', ':vsp<CR>')
-  vim.keymap.set('n', '<C-D-d>', ':sp<CR>')
-  vim.keymap.set('t', '<C-h>', '<C-\\><C-N><C-w>h')
-  vim.keymap.set('t', '<C-j>', '<C-\\><C-N><C-w>j')
-  vim.keymap.set('t', '<C-k>', '<C-\\><C-N><C-w>k')
-  vim.keymap.set('t', '<C-l>', '<C-\\><C-N><C-w>l')
-  vim.keymap.set('i', '<C-h>', '<C-\\><C-N><C-w>h')
-  vim.keymap.set('i', '<C-j>', '<C-\\><C-N><C-w>j')
-  vim.keymap.set('i', '<C-k>', '<C-\\><C-N><C-w>k')
-  vim.keymap.set('i', '<C-l>', '<C-\\><C-N><C-w>l')
-  vim.keymap.set('n', '<C-h>', '<C-w>h')
-  vim.keymap.set('n', '<C-j>', '<C-w>j')
-  vim.keymap.set('n', '<C-k>', '<C-w>k')
-  vim.keymap.set('n', '<C-l>', '<C-w>l')
-
-  -- new app
-  vim.keymap.set('n', '<D-n>', '<CMD>silent !neovide<CR>')
-
-  -- terminal
-  vim.keymap.set('t', '<D-BS>', '<C-\\><C-n>')
-  vim.api.nvim_create_autocmd({ "TermOpen" }, {
-    callback = function()
-      vim.cmd('startinsert')
-      vim.o.showmode = false
-    end
-  })
-
-  vim.g.neovide_padding_top = 10
-  vim.g.neovide_padding_bottom = 0
-  vim.g.neovide_padding_right = 0
-  vim.g.neovide_padding_left = 0
-  vim.g.neovide_hide_mouse_when_typing = true
-
-  vim.o.backup = false
-  vim.o.swapfile = false
-  vim.o.writebackup = false
-  vim.o.autoread = true
-  vim.o.autowrite = true
-  vim.o.autowriteall = true
-  vim.o.clipboard = "unnamedplus"
-  vim.o.tabstop = 2
-  vim.o.shiftwidth = 2
-  vim.o.softtabstop = 2
-  vim.o.expandtab = true
-  vim.o.relativenumber = true
-  vim.o.number = true
-  -- additional filetypes
-  vim.filetype.add({
-    extension = {
-      templ = "templ",
-    },
-  })
-  vim.filetype.add({
-    extension = {
-      tf = "terraform",
-    },
-  })
+vim.o.shell = '/opt/homebrew/bin/fish'
+-- Put anything you want to happen only in Neovide here
+vim.g.neovide_scale_factor = 1.6
+local change_scale_factor = function(delta)
+  vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
 end
+vim.keymap.set('n', '<D-=>', function()
+  change_scale_factor(1.10)
+end)
+vim.keymap.set('n', '<D-->', function()
+  change_scale_factor(1 / 1.10)
+end)
+--https://github.com/vim/vim/blob/master/runtime/mswin.vim
+vim.keymap.set('n', '<D-s>', ':update<CR>')
+vim.keymap.set('v', '<D-s>', '<C-C>:update<CR>')
+vim.keymap.set('i', '<D-s>', '<Esc>:update<CR>gi')
+vim.keymap.set('v', '<D-c>', '"+y')
+vim.keymap.set('v', '<D-x>', '"+x')
+vim.keymap.set('n', '<C-p>', '<C-]>')
+vim.keymap.set({ 'i', 'c' }, '<D-v>', '<C-r>+')
+vim.keymap.set('', '<D-v>', '"+gP')
+vim.keymap.set('v', '<BS>', 'd')
+-- vim.keymap.set('n', '<BS>', '<C-^>')
+
+-- tabs
+vim.keymap.set('n', '<D-1>', '1gt')
+vim.keymap.set('n', '<D-2>', '2gt')
+vim.keymap.set('n', '<D-3>', '3gt')
+vim.keymap.set('n', '<D-4>', '4gt')
+vim.keymap.set('n', '<D-5>', '5gt')
+vim.keymap.set('n', '<D-[>', ':tabprevious<CR>')
+vim.keymap.set('n', '<D-]>', ':tabnext<CR>')
+vim.keymap.set('n', '<D-t>', ':tabnew<CR>')
+vim.keymap.set('n', '<D-w>', ':close<CR>')
+
+-- windows
+vim.keymap.set('n', '<D-d>', ':vsp<CR>')
+vim.keymap.set('n', '<C-D-d>', ':sp<CR>')
+vim.keymap.set('t', '<C-h>', '<C-\\><C-N><C-w>h')
+vim.keymap.set('t', '<C-j>', '<C-\\><C-N><C-w>j')
+vim.keymap.set('t', '<C-k>', '<C-\\><C-N><C-w>k')
+vim.keymap.set('t', '<C-l>', '<C-\\><C-N><C-w>l')
+vim.keymap.set('i', '<C-h>', '<C-\\><C-N><C-w>h')
+vim.keymap.set('i', '<C-j>', '<C-\\><C-N><C-w>j')
+vim.keymap.set('i', '<C-k>', '<C-\\><C-N><C-w>k')
+vim.keymap.set('i', '<C-l>', '<C-\\><C-N><C-w>l')
+vim.keymap.set('n', '<C-h>', '<C-w>h')
+vim.keymap.set('n', '<C-j>', '<C-w>j')
+vim.keymap.set('n', '<C-k>', '<C-w>k')
+vim.keymap.set('n', '<C-l>', '<C-w>l')
+
+-- new app
+vim.keymap.set('n', '<D-n>', '<CMD>silent !neovide<CR>')
+
+-- terminal
+vim.keymap.set('t', '<D-BS>', '<C-\\><C-n>')
+vim.api.nvim_create_autocmd({ "TermOpen" }, {
+  callback = function()
+    vim.cmd('startinsert')
+    vim.o.showmode = false
+  end
+})
+
+vim.g.neovide_padding_top = 10
+vim.g.neovide_padding_bottom = 0
+vim.g.neovide_padding_right = 0
+vim.g.neovide_padding_left = 0
+vim.g.neovide_hide_mouse_when_typing = true
+
+vim.o.backup = false
+vim.o.swapfile = false
+vim.o.writebackup = false
+vim.o.autoread = true
+vim.o.autowrite = true
+vim.o.autowriteall = true
+vim.o.clipboard = "unnamedplus"
+vim.o.tabstop = 2
+vim.o.shiftwidth = 2
+vim.o.softtabstop = 2
+vim.o.expandtab = true
+vim.o.relativenumber = true
+vim.o.number = true
+-- additional filetypes
+vim.filetype.add({
+  extension = {
+    templ = "templ",
+  },
+})
+vim.filetype.add({
+  extension = {
+    tf = "terraform",
+  },
+})
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
