@@ -251,6 +251,41 @@ do
     group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
     callback = function() vim.hl.on_yank() end,
   })
+
+  -- Rename the current Zellij tab to "<parent>/<dir>" of the cwd.
+  --  Only runs when Neovim is inside a Zellij session (the `ZELLIJ`
+  --  env var is set) and the `zellij` binary is available.
+  if vim.env.ZELLIJ and vim.fn.executable 'zellij' == 1 then
+    local zellij_group = vim.api.nvim_create_augroup('kickstart-zellij-rename-tab', { clear = true })
+
+    local function rename_zellij_tab(name)
+      -- `wait` lets the command finish before Neovim exits on VimLeave.
+      vim.system({ 'zellij', 'action', 'rename-tab', name }):wait()
+    end
+
+    local function cwd_label()
+      local cwd = vim.fn.getcwd()
+      local dir = vim.fn.fnamemodify(cwd, ':t')
+      local parent = vim.fn.fnamemodify(cwd, ':h:t')
+      -- Handle paths at/near the filesystem root where parent is empty.
+      if parent == '' or parent == dir then return dir end
+      return parent .. '/' .. dir
+    end
+
+    vim.api.nvim_create_autocmd({ 'VimEnter', 'DirChanged', 'BufEnter' }, {
+      desc = 'Rename Zellij tab to the current working directory',
+      group = zellij_group,
+      callback = function() rename_zellij_tab(cwd_label()) end,
+    })
+
+    -- Zellij offers no way to query the original tab name, so on exit we
+    --  reset it to the cwd basename (what a shell prompt typically shows).
+    vim.api.nvim_create_autocmd('VimLeave', {
+      desc = 'Reset Zellij tab name when leaving Neovim',
+      group = zellij_group,
+      callback = function() rename_zellij_tab(vim.fn.fnamemodify(vim.fn.getcwd(), ':t')) end,
+    })
+  end
 end
 
 -- ============================================================
