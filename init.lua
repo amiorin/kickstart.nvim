@@ -135,9 +135,13 @@ do
       ['+'] = osc52.copy '+',
       ['*'] = osc52.copy '+',
     },
+    -- OSC 52 *read* (paste) requires the terminal to answer a clipboard query,
+    -- which most terminals/multiplexers (e.g. Zellij) disable, causing Neovim to
+    -- hang on "Waiting for OSC 52 response...". Paste from Neovim's own register
+    -- instead and rely on the terminal's native paste for outside text.
     paste = {
-      ['+'] = osc52.paste '+',
-      ['*'] = osc52.paste '+',
+      ['+'] = function() return vim.split(vim.fn.getreg '"', '\n') end,
+      ['*'] = function() return vim.split(vim.fn.getreg '"', '\n') end,
     },
   }
 
@@ -234,7 +238,7 @@ do
   --
   -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
   -- or just use <C-\><C-n> to exit terminal mode
-  vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+  vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
   -- TIP: Disable arrow keys in normal mode
   -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
