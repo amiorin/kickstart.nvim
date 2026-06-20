@@ -1,4 +1,4 @@
-vim.pack.add {'https://github.com/DrKJeff16/project.nvim' }
+vim.pack.add { 'https://github.com/DrKJeff16/project.nvim' }
 
 require('project').setup {
   on_attach = function(dir)
