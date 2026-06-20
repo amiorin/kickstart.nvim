@@ -124,6 +124,23 @@ do
   --  See `:help 'clipboard'`
   vim.schedule(function() vim.o.clipboard = 'unnamedplus' end)
 
+  -- Use a single clipboard backed by OSC 52 so yanks/pastes work over SSH and
+  -- inside terminal multiplexers. Both the `*` and `+` registers point at the
+  -- same OSC 52 clipboard, so there is effectively only one clipboard.
+  --  See `:help clipboard-osc52`
+  local osc52 = require 'vim.ui.clipboard.osc52'
+  vim.g.clipboard = {
+    name = 'OSC 52',
+    copy = {
+      ['+'] = osc52.copy '+',
+      ['*'] = osc52.copy '+',
+    },
+    paste = {
+      ['+'] = osc52.paste '+',
+      ['*'] = osc52.paste '+',
+    },
+  }
+
   -- Enable break indent
   vim.o.breakindent = true
 
@@ -555,6 +572,7 @@ do
   vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
   vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
   vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+  vim.keymap.set('n', '<leader>fr', builtin.oldfiles, { desc = '[F]ind [R]ecent Files' })
   vim.keymap.set('n', '<leader>sc', builtin.commands, { desc = '[S]earch [C]ommands' })
   vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
