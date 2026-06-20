@@ -276,6 +276,25 @@ do
     group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
     callback = function() vim.hl.on_yank() end,
   })
+
+  -- Auto-reload buffers when their file changes on disk (e.g. edited by
+  -- Claude Code or another nvim instance). `autoread` is on by default but
+  -- only re-reads when a check is triggered, so poll with `:checktime` on
+  -- focus, buffer enter, and cursor-hold (idle) events.
+  vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI', 'TermClose', 'TermLeave' }, {
+    desc = 'Check for external file changes and reload',
+    group = vim.api.nvim_create_augroup('kickstart-auto-reload', { clear = true }),
+    callback = function()
+      if vim.o.buftype ~= 'nofile' then vim.cmd 'checktime' end
+    end,
+  })
+
+  -- Notify after a buffer was auto-reloaded from a changed file
+  vim.api.nvim_create_autocmd('FileChangedShellPost', {
+    desc = 'Notify when a file is reloaded from disk',
+    group = vim.api.nvim_create_augroup('kickstart-auto-reload-notify', { clear = true }),
+    callback = function() vim.notify('File changed on disk, buffer reloaded', vim.log.levels.INFO) end,
+  })
 end
 
 -- ============================================================
