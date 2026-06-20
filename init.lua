@@ -277,6 +277,18 @@ do
     callback = function() vim.hl.on_yank() end,
   })
 
+  -- Close the buffer when a `:terminal` process exits (e.g. <C-d> sends EOF
+  -- to the shell, or the program ends on its own). Without this the buffer
+  -- lingers showing "[Process exited N]" until closed manually.
+  vim.api.nvim_create_autocmd('TermClose', {
+    desc = 'Close terminal buffer when its process exits',
+    group = vim.api.nvim_create_augroup('kickstart-term-close', { clear = true }),
+    callback = function(args)
+      -- Only auto-close cleanly-exited terminals; keep failures around to read.
+      if vim.v.event.status == 0 then vim.api.nvim_buf_delete(args.buf, { force = true }) end
+    end,
+  })
+
   -- Auto-reload buffers when their file changes on disk (e.g. edited by
   -- Claude Code or another nvim instance). `autoread` is on by default but
   -- only re-reads when a check is triggered, so poll with `:checktime` on
