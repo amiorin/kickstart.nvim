@@ -2,6 +2,7 @@ vim.pack.add { 'https://github.com/neogitorg/neogit' }
 
 require('neogit').setup {
   kind = 'replace',
+  integrations = { diffview = true },
 }
 
 vim.keymap.set('n', '<leader>gg', '<Cmd>Neogit<CR>', { desc = 'Open Neogit' })
