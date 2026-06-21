@@ -15,6 +15,7 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.schedule(function()
       if not vim.api.nvim_buf_is_valid(args.buf) then return end
       vim.keymap.set('n', 'q', function() Snacks.bufdelete() end, { buffer = args.buf, desc = 'Delete buffer' })
+      vim.keymap.set('n', '-', '<Cmd>Oil<CR>', { buffer = args.buf, desc = 'Open parent directory' })
     end)
   end,
 })
