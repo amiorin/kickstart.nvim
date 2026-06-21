@@ -909,6 +909,10 @@ do
       -- See `:help blink-cmp-config-keymap` for defining your own keymap
       preset = 'default',
 
+      -- Make <Up>/<Down> behave like <Tab>/<S-Tab>: jump through snippet placeholders
+      ['<Down>'] = { 'snippet_forward', 'fallback' },
+      ['<Up>'] = { 'snippet_backward', 'fallback' },
+
       -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
       --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
     },
@@ -930,6 +934,18 @@ do
     },
 
     snippets = { preset = 'luasnip' },
+
+    -- Command-line completion: make <Down>/<Up> behave like <Tab>/<S-Tab>
+    cmdline = {
+      keymap = {
+        preset = 'cmdline',
+        ['<Down>'] = { 'show_and_insert_or_accept_single', 'select_next' },
+        ['<Up>'] = {
+          function(cmp) return cmp.show_and_insert_or_accept_single { initial_selected_item_idx = -1 } end,
+          'select_prev',
+        },
+      },
+    },
 
     -- Blink.cmp includes an optional, recommended rust fuzzy matcher,
     -- which automatically downloads a prebuilt binary when enabled.
