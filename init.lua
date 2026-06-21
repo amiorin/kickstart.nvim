@@ -525,17 +525,33 @@ do
   vim.pack.add(telescope_plugins)
 
   -- See `:help telescope` and `:help telescope.setup()`
+  local actions = require 'telescope.actions'
   require('telescope').setup {
     -- You can put your default mappings / updates / etc. in here
     --  All the info you're looking for is in `:help telescope.setup()`
-    --
-    -- defaults = {
-    --   mappings = {
-    --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-    --   },
-    -- },
+    defaults = {
+      mappings = {
+        -- Single <Esc> closes the picker instead of dropping into normal mode.
+        -- Show the which-key mapping popup from insert mode too (default only binds `?` in normal mode).
+        i = {
+          ['<esc>'] = actions.close,
+          ['?'] = actions.which_key,
+        },
+      },
+    },
     -- pickers = {}
     extensions = {
+      -- Emacs `orderless`-style matching: type space-separated terms that match
+      -- in any order. fzf-native AND's the tokens together (order-independent);
+      -- `fuzzy = false` makes each token a literal substring (like orderless-literal)
+      -- instead of a fuzzy match. fzf token syntax still works: `^foo` prefix,
+      -- `bar$` suffix, `'baz` exact, `!qux` negate.
+      fzf = {
+        fuzzy = false,
+        override_generic_sorter = true,
+        override_file_sorter = true,
+        case_mode = 'smart_case',
+      },
       ['ui-select'] = { require('telescope.themes').get_dropdown() },
     },
   }
