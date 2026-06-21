@@ -3,4 +3,12 @@ vim.pack.add {
   'https://github.com/sindrets/diffview.nvim',
 }
 
-require('diffview').setup {}
+local close = { 'n', 'q', '<cmd>DiffviewClose<cr>', { desc = 'Close Diffview' } }
+
+require('diffview').setup {
+  keymaps = {
+    view = { close },
+    file_panel = { close },
+    file_history_panel = { close },
+  },
+}
