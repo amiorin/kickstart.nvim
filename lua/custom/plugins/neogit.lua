@@ -2,6 +2,7 @@ vim.pack.add { 'https://github.com/neogitorg/neogit' }
 
 require('neogit').setup {
   kind = 'replace',
+  disable_hint = true,
   integrations = { diffview = true },
 }
 
