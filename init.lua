@@ -519,6 +519,7 @@ do
     gh 'nvim-lua/plenary.nvim',
     gh 'nvim-telescope/telescope.nvim',
     gh 'nvim-telescope/telescope-ui-select.nvim',
+    gh 'nvim-telescope/telescope-file-browser.nvim',
   }
   if vim.fn.executable 'make' == 1 then table.insert(telescope_plugins, gh 'nvim-telescope/telescope-fzf-native.nvim') end
 
@@ -560,6 +561,7 @@ do
   -- Enable Telescope extensions if they are installed
   pcall(require('telescope').load_extension, 'fzf')
   pcall(require('telescope').load_extension, 'ui-select')
+  pcall(require('telescope').load_extension, 'file_browser')
 
   -- See `:help telescope.builtin`
   local builtin = require 'telescope.builtin'
@@ -573,14 +575,13 @@ do
   vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
   vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
   vim.keymap.set('n', '<leader>fr', builtin.oldfiles, { desc = '[F]ind [R]ecent Files' })
-  -- Emacs-style find-file: pick a file starting from the current buffer's directory.
+  -- Emacs-style find-file: browse files starting from the current buffer's directory.
   vim.keymap.set('n', '<leader>ff', function()
     local dir = vim.fn.expand '%:p:h'
     if dir == '' then dir = vim.fn.getcwd() end
-    -- `hidden` shows dotfiles; `no_ignore = false` (default) keeps gitignored
-    -- files out, and the glob skips the `.git` directory itself.
-    builtin.find_files { cwd = dir, hidden = true, no_ignore = false, file_ignore_patterns = { '^%.git/' } }
-  end, { desc = '[F]ind [F]ile (current dir)' })
+    -- `hidden` shows dotfiles.
+    require('telescope').extensions.file_browser.file_browser { path = dir, hidden = true }
+  end, { desc = '[F]ind [F]ile (file browser)' })
   vim.keymap.set('n', '<leader>sc', builtin.commands, { desc = '[S]earch [C]ommands' })
   -- Project-wide file finder (Doom's `SPC SPC`): search files from the project root.
   vim.keymap.set('n', '<leader><leader>', function()
