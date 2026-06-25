@@ -242,7 +242,7 @@ do
   --
   -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
   -- or just use <C-\><C-n> to exit terminal mode
-  vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+  vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
   -- [[ Basic Autocommands ]]
   --  See `:help lua-guide-autocommands`
@@ -537,7 +537,14 @@ do
         },
       },
     },
-    -- pickers = {}
+    pickers = {
+      buffers = {
+        mappings = {
+          i = { ['<c-d>'] = actions.delete_buffer },
+          n = { ['<c-d>'] = actions.delete_buffer },
+        },
+      },
+    },
     extensions = {
       -- Emacs `orderless`-style matching: type space-separated terms that match
       -- in any order. fzf-native AND's the tokens together (order-independent);
